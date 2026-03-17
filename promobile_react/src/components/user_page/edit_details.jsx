@@ -207,7 +207,7 @@ const handleSubmit = async (e) => {
 const res = await editUser(id, payload);
     if(res.success){
       alert(res.message);
-      navigate("/addusertable");
+      navigate("/Table");
     }
 
   } catch (error) {
