@@ -165,7 +165,7 @@ const res = await addUser(payload);
 
 if(res.success){
   alert(res.message);
-  navigate("/addusertable");
+  navigate("/Table");
 }
 
   } catch (error) {

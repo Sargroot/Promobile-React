@@ -63,50 +63,50 @@ const sortBy = (key, direction) => {
 const pageUsers = user.filter(u =>
   (u.name || "").toLowerCase().includes(search.toLowerCase())
 );
-const toggleStatus = async (index) => {
+// const toggleStatus = async (index) => {
 
-  const selectedUser = user[index];
+//   const selectedUser = user[index];
 
-  const newStatus = selectedUser.status === 1 ? 0 : 1;
-console.log(selectedUser.name);
+//   const newStatus = selectedUser.status === 1 ? 0 : 1;
+// console.log(selectedUser.name);
 
-  try {
+//   try {
 
-    // await axios.post(
-    //   "http://localhost:3001/api/users/update-status",
-    //   {
-    //     id: selectedUser.id,
-    //     status: newStatus,
-    //   }
-    // );
+//     // await axios.post(
+//     //   "http://localhost:3001/api/users/update-status",
+//     //   {
+//     //     id: selectedUser.id,
+//     //     status: newStatus,
+//     //   }
+//     // );
 
-    await updateStatus({
-      id:selectedUser.id,
-      status:newStatus,
-      updatedBy:selectedUser.name
-    })
-    fetchUsers();
+//     await updateStatus({
+//       id:selectedUser.id,
+//       status:newStatus,
+//       updatedBy:selectedUser.name
+//     })
+//     fetchUsers();
 
-  } catch (error) {
-    console.log(error);
-  }
+//   } catch (error) {
+//     console.log(error);
+//   }
 
-};
+// };
 
-const deleteUser = async (index) => {
+// const deleteUser = async (index) => {
 
-  const selectedUser = user[index];
+//   const selectedUser = user[index];
 
-  try {
-    await userDelete(selectedUser.id);
+//   try {
+//     await userDelete(selectedUser.id);
 
-    fetchUsers();
+//     fetchUsers();
 
-  } catch (error) {
-    console.log(error);
-  }
+//   } catch (error) {
+//     console.log(error);
+//   }
 
-};
+// };
 
 const edit = (id) => {
 navigate(`/Table/Edit/${id}`);
@@ -120,9 +120,13 @@ const totalPages = pagination.totalPages || 1;
 
 const confirmDelete = async () => {
   try {
-    await userDelete(selectedUser.id); // backend delete with id
+    await userDelete(selectedUser.id); // ✅ uses id
+
     setShowDeleteModal(false);
+    setSelectedUser(null);
+
     fetchUsers();
+
   } catch (error) {
     console.log(error);
   }
@@ -133,12 +137,15 @@ const confirmStatusUpdate = async () => {
 
   try {
     await updateStatus({
-      id: selectedUser.id,
+      id: selectedUser.id, // ✅ uses id
       status: newStatus
     });
 
     setShowStatusModal(false);
+    setSelectedUser(null);
+
     fetchUsers();
+
   } catch (error) {
     console.log(error);
   }
@@ -230,7 +237,7 @@ else{
       <td colSpan="6" align="center">No users found</td>
     </tr>
   ) : (
-    pageUsers.map((user, index) => (
+    pageUsers.map((user) => (
       <tr key={user.id}>
         <td>{user.name}</td>
         <td>{user.role}</td>
@@ -243,12 +250,12 @@ else{
         <span
         className="dots"
         onClick={() =>
-        setOpenMenu(openMenu === index ? null : index)}>⋮</span>
-                     <div className="menu" style={{ display: openMenu === index ? "block" : "none" }}>
+        setOpenMenu(openMenu === user.id ? null : user.id)}>⋮</span>
+                     <div className="menu" style={{ display: openMenu === user.id ? "block" : "none" }}>
                     <div onClick={() => {edit(user.id);setOpenMenu(null); }}>Edit</div>
                     <div onClick={() => {views(user.id);setOpenMenu(null); }}>View</div>
-                    <div onClick={() => {setSelectedUser(user[index]);setShowStatusModal(true);setOpenMenu(null);}}> Update Status</div> 
-                    <div onClick={() => {setSelectedUser(user[index]);setShowDeleteModal(true);setOpenMenu(null);}}> Delete</div>   
+                    <div onClick={() => {setSelectedUser(user);setShowStatusModal(true);setOpenMenu(null);}}> Update Status</div> 
+                    <div onClick={() => {setSelectedUser(user);setShowDeleteModal(true);setOpenMenu(null);}}> Delete</div>   
                   </div>
             </td>
       </tr>
