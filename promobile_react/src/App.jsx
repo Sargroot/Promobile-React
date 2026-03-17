@@ -17,9 +17,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/adduser" element={<Adduser setUsers={setUsers}/>}/>
-        <Route path="/addusertable" element={<Tables users={users}/>}/>
-        <Route path="/viewdetails" element={<Viewdetails/>}/>
-        <Route path="/editdetails" element={<Editdetails users={users} setUsers={setUsers}/>}/>
+        <Route path="/Table" element={<Tables users={users}/>}>
+          <Route path="View/:id" element={<Viewdetails/>}/>
+          <Route path="Edit/:id" element={<Editdetails/>}/>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

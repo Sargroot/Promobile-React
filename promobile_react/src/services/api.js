@@ -45,4 +45,5 @@ export const updateStatus = async (payload) => {
 
 export const userDelete = async (id) =>{
     const res = await axios.delete(`${BASE_URL}/users/${id}`);
+    return res.data;
 }

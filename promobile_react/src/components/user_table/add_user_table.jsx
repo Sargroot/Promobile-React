@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
-import { getTable, updateStatus, userDelete  } from "../../api/masterapi";
+import { getTable, updateStatus, userDelete  } from "../../services/api";
+import { Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 
 
 function Tables() {
@@ -11,6 +14,12 @@ function Tables() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [openMenu, setOpenMenu] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const location = useLocation();
+  const loc = window.location.href;
+
 const [pagination, setPagination] = useState({
   totalItems: 0,
   totalPages: 1
@@ -89,11 +98,6 @@ const deleteUser = async (index) => {
   const selectedUser = user[index];
 
   try {
-
-    // await axios.delete(
-    //   `http://localhost:3001/api/users/${selectedUser.id}`
-    // );
-
     await userDelete(selectedUser.id);
 
     fetchUsers();
@@ -105,28 +109,57 @@ const deleteUser = async (index) => {
 };
 
 const edit = (id) => {
-  navigate("/editdetails", { state: { id } });
+navigate(`/Table/Edit/${id}`);
 };
 
-const views = (index) => {
-  navigate("/viewdetails", {
-    state: user[index]
-  });
+const views = (id) => {
+navigate(`/Table/View/${id}`);
 };
 const start = (currentPage - 1) * rowsPerPage;
 const totalPages = pagination.totalPages || 1;
+
+const confirmDelete = async () => {
+  try {
+    await userDelete(selectedUser.id); // backend delete with id
+    setShowDeleteModal(false);
+    fetchUsers();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const confirmStatusUpdate = async () => {
+  const newStatus = selectedUser.status === 1 ? 0 : 1;
+
+  try {
+    await updateStatus({
+      id: selectedUser.id,
+      status: newStatus
+    });
+
+    setShowStatusModal(false);
+    fetchUsers();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+if (location.pathname !== "/Table") {
+  return <Outlet />;
+}
+else{
   return (
 <>
   <style
     dangerouslySetInnerHTML={{
       __html:
-        "\n        * {\n    color:black;\n        margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Poppins;\n        }\n\n        body {\n            background: #fff;\n        }\n\n        .nav {\n            position: fixed;\n            top: 0;\n            width: 100%;\n            padding: 18px 40px;\n            background: white;\n            font-size: 22px;\n            box-shadow: 0 2px 6px rgba(0,0,0,0.1);\n            z-index: 10;\n        }\n\n        .container {\n            margin: 0px 150px 0px 150px;\n                        border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0,0,0,0.15);\n        }\n\n        table {\n            width: 100%;\n    margin-top:10px;\n        border-collapse: collapse;\n        }\n\n        thead {\n            background: #d8433c;\n            border-radius: 10px 0px 0px 0px ;\n\n        }\n\n        th {\n            color: white;\n            padding: 12px;\n            text-align: center;\n            font-weight: 500;            \n        }\n\n        td {\n            padding: 10px;\n            text-align: center;\n\n        }\n\n        tbody tr:nth-child(even) {\n            background: #fff4f4;\n        }\n\n        .active {\n            color: green;\n            font-weight: 600;\n        }\n\n        .inactive {\n            color: red;\n            font-weight: 600;\n        }\n\n        .action-cell {\n            position: relative;\n        }\n\n        .dots {\n            cursor: pointer;\n            font-size: 18px;\n            user-select: none;\n        }\n\n        .menu {\n            display: none;\n            position: absolute;\n            right: 20px;\n            top: 30px;\n            width: 150px;\n            background: white;\n            border: 1px solid #ddd;\n            box-shadow: 0 4px 10px rgba(0,0,0,0.15);\n            border-radius: 4px;\n            z-index: 5;\n        }\n\n        .menu div {\n            padding: 10px;\n            cursor: pointer;\n            font-size: 14px;\n        }\n\n        .menu div:hover {\n            background: #f5f5f5;\n        }\n\n        .menu .danger {\n            color: red;\n        }\n        .myInput{\n            margin-top: 80px;\n            margin-left: 10px;\n            background-color: #d8433c;\n            padding: 8px;\n            color: white;\n            border: 0.1px solid grey ;\n            border-radius: 5px;\n            width:110px\n            \n        }\n        .mybtn{\n            margin-top: 80px;\n            margin-left: 80.5%;\n             margin-bottom: 10px;\n            background-color: white;\n            padding: 8px;\n            border: 0.1px solid grey ;\n            border-radius: 5px;\n        }\n        .one{\n            border-radius: 10px 0px 0px 0px ;\n        }\n        .two{\n            border-radius: 0px 10px 0px 0px ;\n        }\n\n        tr:last-child td:first-child {\n            border-radius: 0px 0px 0px 10px;       \n        }\n        tr:last-child td:last-child {\n            border-radius: 0px 0px 10px 0px;       \n        }\n        .sort-icons {\n            display: inline-flex;\n            flex-direction: column;       \n            line-height: 0.9;\n        }\n\n        .sort-icons span {\n            cursor: pointer;\n            font-size: 10px;\n        }\n\n    "
+        "\n        * {\n    color:black;\n        margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Poppins;\n        }\n\n        body {\n            background: #fff;\n        }\n\n        .nav {\n            position: fixed;\n            top: 0;\n            width: 100%;\n            padding: 18px 40px;\n            background: white;\n            font-size: 22px;\n            box-shadow: 0 2px 6px rgba(0,0,0,0.1);\n            z-index: 10;\n        }\n\n        .container {\n            margin: 0px 150px 0px 150px;\n                        border-radius: 10px;\n            box-shadow: 0 4px 8px rgba(0,0,0,0.15);\n        }\n\n        table {\n            width: 100%;\n    margin-top:10px;\n        border-collapse: collapse;\n        }\n\n        thead {\n            background: #d8433c;\n            border-radius: 10px 0px 0px 0px ;\n\n        }\n\n        th {\n            color: white;\n            padding: 12px;\n            text-align: center;\n            font-weight: 500;            \n        }\n\n        td {\n            padding: 10px;\n            text-align: center;\n\n        }\n\n        tbody tr:nth-child(even) {\n            background: #fff4f4;\n        }\n\n        .active {\n            color: green;\n            font-weight: 600;\n        }\n\n        .inactive {\n            color: red;\n            font-weight: 600;\n        }\n\n        .action-cell {\n            position: relative;\n        }\n\n        .dots {\n            cursor: pointer;\n            font-size: 18px;\n            user-select: none;\n        }\n\n        .menu {\n            display: none;\n            position: absolute;\n            right: 20px;\n            top: 30px;\n            width: 150px;\n            background: white;\n            border: 1px solid #ddd;\n            box-shadow: 0 4px 10px rgba(0,0,0,0.15);\n            border-radius: 4px;\n            z-index: 5;\n        }\n\n        .menu div {\n            padding: 10px;\n            cursor: pointer;\n            font-size: 14px;\n        }\n\n        .menu div:hover {\n            background: #f5f5f5;\n        }\n\n        .menu .danger {\n            color: red;\n        }\n        .myInput{\n            margin-top: 80px;\n            margin-left: 10px;\n            background-color: #d8433c;\n            padding: 8px;\n            color: white;\n            border: 0.1px solid grey ;\n            border-radius: 5px;\n            width:110px\n            \n        }\n        .mybtn{\n            margin-top: 80px;\n            margin-left: 80.5%;\n             margin-bottom: 10px;\n            background-color: white;\n            padding: 8px;\n            border: 0.1px solid grey ;\n            border-radius: 5px;\n        }\n        .one{\n            border-radius: 10px 0px 0px 0px ;\n        }\n        .two{\n            border-radius: 0px 10px 0px 0px ;\n        }\n\n        tr:last-child td:first-child {\n            border-radius: 0px 0px 0px 10px;       \n        }\n        tr:last-child td:last-child {\n            border-radius: 0px 0px 10px 0px;       \n        }\n        .sort-icons {\n            display: inline-flex;\n            flex-direction: column;       \n            line-height: 0.9;\n        }\n\n        .sort-icons span {\n            cursor: pointer;\n            font-size: 10px;\n        }\n\n     "
     }}
   />
 
 
   <div className="nav">
-    <a style={{ textDecoration: "none", color: "black" }}>Users</a>
+    <h3 style={{ textDecoration: "none", color: "black" ,fontWeight: "400"}}>{loc.slice(22)}</h3>
   </div>
 
 <Link style={{ textDecoration: "none" }} to="/adduser" className="mybtn">+ Add User</Link>
@@ -213,10 +246,10 @@ const totalPages = pagination.totalPages || 1;
         setOpenMenu(openMenu === index ? null : index)}>⋮</span>
                      <div className="menu" style={{ display: openMenu === index ? "block" : "none" }}>
                     <div onClick={() => {edit(user.id);setOpenMenu(null); }}>Edit</div>
-                    <div onClick={() => {views(index);setOpenMenu(null); }}>View</div>
-                    <div onClick={() => {toggleStatus(index);setOpenMenu(null); }}>Update Status</div>
-                    <div  onClick={() => {deleteUser(index);setOpenMenu(null); }}>Delete</div>
-                </div>
+                    <div onClick={() => {views(user.id);setOpenMenu(null); }}>View</div>
+                    <div onClick={() => {setSelectedUser(user[index]);setShowStatusModal(true);setOpenMenu(null);}}> Update Status</div> 
+                    <div onClick={() => {setSelectedUser(user[index]);setShowDeleteModal(true);setOpenMenu(null);}}> Delete</div>   
+                  </div>
             </td>
       </tr>
     ))
@@ -286,9 +319,39 @@ const totalPages = pagination.totalPages || 1;
   </span>
 </div>
   </div>
+
+{showDeleteModal && (
+  <div className="modal-overlay">
+    <div className="modal-box">
+      <h3>Are you sure you want to delete?</h3>
+      <div className="modal-actions">
+        <button onClick={() => setShowDeleteModal(false)}>Back</button>
+        <button className="danger" onClick={confirmDelete}>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+{showStatusModal && (
+  <div className="modal-overlay">
+    <div className="modal-box">
+      <h3>Update User Status?</h3>
+      <div className="modal-actions">
+        <button onClick={() => setShowStatusModal(false)}>Back</button>
+        <button className="primary" onClick={confirmStatusUpdate}>
+          {selectedUser?.status === 1 ? "Make Inactive" : "Make Active"}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 </>
 
   );
+}
 }
 
 export default Tables;

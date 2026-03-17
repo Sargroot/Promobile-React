@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import styles from "./add_user_s.module.css";
 import { useNavigate } from "react-router-dom";
-import { getRoles,getCountries,getStates ,addUser} from "../../api/masterapi";
+import { getRoles,getCountries,getStates ,addUser} from "../../services/api";
 
 function Adduser(){
   

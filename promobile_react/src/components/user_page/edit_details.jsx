@@ -1,19 +1,19 @@
 import styles from "./add_user_s.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getRoles,getCountries,getStates,editUser,getUserById } from "../../api/masterapi";
+import { getRoles,getCountries,getStates,editUser,getUserById } from "../../services/api";
 
 function Editdetails() {
   const [roles, setRoles] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
-  const location = useLocation();
   const navigate = useNavigate();
-  const { id } = location.state || {};
+  const { id } = useParams();
+  const loc = window.location.href;
 
 useEffect(() => {
   initialize();
-}, []);
+}, [id]);
 
 const initialize = async () => {
   await fetchRoles();
@@ -27,7 +27,7 @@ const initialize = async () => {
 const fetchUser = async (countriesData) => {
   try {
     const res = await getUserById(id)
-    const user = res.data;
+    const user = res.data || res;
 
     setFormData({
       username: user.name,
@@ -204,8 +204,7 @@ const handleSubmit = async (e) => {
   };
 
   try {
-  const res = await editUser(id,payload);
-
+const res = await editUser(id, payload);
     if(res.success){
       alert(res.message);
       navigate("/addusertable");
@@ -226,9 +225,9 @@ const handleSubmit = async (e) => {
       <div className={styles.form__outer}>
 
         <div className={styles.nav}>
-          <p style={{ color: "black", fontWeight: "400" }}>
-            Edit User
-          </p>
+          <h3 style={{ color: "black", fontWeight: "400" }}>
+            {loc.slice(22)}
+          </h3>
         </div>
 
         <div className={styles.form__container}>
@@ -303,9 +302,9 @@ const handleSubmit = async (e) => {
                 <button
                   type="button"
                   className={styles.move}
-                  onClick={() => navigate("/addusertable")}
+                  onClick={() => navigate(-1)}
                 >
-                  Cancel
+                  Back
                 </button>
               </div>
             </div>

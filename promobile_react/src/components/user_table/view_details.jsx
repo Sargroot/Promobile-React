@@ -1,14 +1,14 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUserById } from "../../api/masterapi";
+import { getUserById } from "../../services/api";
 
 
 function Viewdetails(){
 
-  const location = useLocation();
   const navigate = useNavigate();
-  const { id } = location.state || {};
   const [data, setData] = useState({});
+  const { id } = useParams();
+  const loc = window.location.href;
 
  useEffect(() => {
 
@@ -39,7 +39,7 @@ function Viewdetails(){
     }}
   />
   <nav>
-    <p>View Plan</p>
+    <h4 style={{color:"black" , fontWeight:"400"}}>{loc.slice(22)}</h4>
   </nav>
   <main>
     <div className="container_o">
@@ -64,7 +64,7 @@ function Viewdetails(){
               <p className="b">{new Date(data.createdAt).toLocaleString()}</p><br />
 
               <p className="a">Last Update on</p>
-              <p className="b">{new Date(data.updatedAt).toLocaleString()}</p><br />
+              <p className="b">  {data.updatedAt ? new Date(data.updatedAt).toLocaleString() : "-"}</p><br />
             </div>
             <div>
               <p className="a">Role</p>
