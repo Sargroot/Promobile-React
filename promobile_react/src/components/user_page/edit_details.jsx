@@ -2,6 +2,7 @@ import styles from "./add_user_s.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getRoles,getCountries,getStates,editUser,getUserById } from "../../services/api";
+import { emailRegex,usernameRegex,mobileRegex } from "../../constant";
 
 function Editdetails() {
   const [roles, setRoles] = useState([]);
@@ -144,12 +145,6 @@ const handleChange = (e) => {
   }));
 
 };
-
-
-
-const usernameRegex = /^[A-Za-z\s]+$/;
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const mobileRegex = /^\d{10}$/;
 
 const validateField = (name, value) => {
   switch (name) {
