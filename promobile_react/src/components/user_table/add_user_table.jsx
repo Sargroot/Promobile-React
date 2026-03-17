@@ -330,7 +330,8 @@ else{
 {showDeleteModal && (
   <div className="modal-overlay">
     <div className="modal-box">
-      <h3>Are you sure you want to delete?</h3>
+      <h3>Delete User</h3><br/>
+      <p>"Are you sure you want to delete this user?"</p>
       <div className="modal-actions">
         <button onClick={() => setShowDeleteModal(false)}>Back</button>
         <button className="danger" onClick={confirmDelete}>
@@ -345,11 +346,12 @@ else{
 {showStatusModal && (
   <div className="modal-overlay">
     <div className="modal-box">
-      <h3>Update User Status?</h3>
+      <h3>Update User Status</h3><br/>
+      <p>"Are you sure you want to make the status {selectedUser?.status === 1 ? "Inactive" : "Active"}?"</p>
       <div className="modal-actions">
         <button onClick={() => setShowStatusModal(false)}>Back</button>
         <button className="primary" onClick={confirmStatusUpdate}>
-          {selectedUser?.status === 1 ? "Make Inactive" : "Make Active"}
+          {selectedUser?.status === 1 ? "Inactive" : "Active"}
         </button>
       </div>
     </div>

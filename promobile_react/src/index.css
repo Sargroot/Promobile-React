@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     color: gray;
-    font-family: 'Poppins';
+        font-family: 'Poppins';
 
 }
 
@@ -40,35 +40,45 @@ li img {
   align-items: center;
   justify-content: center;
   z-index: 100;
+    font-family: 'Poppins';
+
 }
 
 .modal-box {
   background: white;
   padding: 20px;
   border-radius: 10px;
-  width: 300px;
+  width: 800px;
+  height: 300px;
   text-align: center;
 }
 
 .modal-actions {
-  margin-top: 20px;
+  margin-top: 120px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .modal-actions button {
-  padding: 8px 15px;
+  padding: 12px 25px;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
+  font-weight: bold;
   cursor: pointer;
+background-color: transparent;
+border: 2px solid #d8433c;
+color: #d8433c;
+
+
+
 }
 
 .modal-actions .danger {
-  background: red;
+  background: #d8433c;
   color: white;
 }
 
 .modal-actions .primary {
-  background: green;
+  background: #d8433c;
   color: white;
 }
