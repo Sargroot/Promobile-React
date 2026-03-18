@@ -19,12 +19,12 @@ function Tables() {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const location = useLocation();
-  const loc = window.location.href;
 
 const [pagination, setPagination] = useState({
   totalItems: 0,
   totalPages: 1
-});  const navigate = useNavigate();
+});  
+const navigate = useNavigate();
 useEffect(() => {
   fetchUsers();
 }, [currentPage, rowsPerPage,sortConfig]);
