@@ -3,6 +3,7 @@ import { Link,useNavigate } from "react-router-dom";
 import { getTable, updateStatus, userDelete  } from "../../services/api";
 import { Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import Bread from "../Breadcrumbs/breadcrumbs";
 
 
 
@@ -24,7 +25,6 @@ const [pagination, setPagination] = useState({
   totalItems: 0,
   totalPages: 1
 });  const navigate = useNavigate();
-console.log(user , "hewr");
 useEffect(() => {
   fetchUsers();
 }, [currentPage, rowsPerPage,sortConfig]);
@@ -63,50 +63,6 @@ const sortBy = (key, direction) => {
 const pageUsers = user.filter(u =>
   (u.name || "").toLowerCase().includes(search.toLowerCase())
 );
-// const toggleStatus = async (index) => {
-
-//   const selectedUser = user[index];
-
-//   const newStatus = selectedUser.status === 1 ? 0 : 1;
-// console.log(selectedUser.name);
-
-//   try {
-
-//     // await axios.post(
-//     //   "http://localhost:3001/api/users/update-status",
-//     //   {
-//     //     id: selectedUser.id,
-//     //     status: newStatus,
-//     //   }
-//     // );
-
-//     await updateStatus({
-//       id:selectedUser.id,
-//       status:newStatus,
-//       updatedBy:selectedUser.name
-//     })
-//     fetchUsers();
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-// };
-
-// const deleteUser = async (index) => {
-
-//   const selectedUser = user[index];
-
-//   try {
-//     await userDelete(selectedUser.id);
-
-//     fetchUsers();
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-// };
 
 const edit = (id) => {
 navigate(`/Table/Edit/${id}`);
@@ -120,7 +76,7 @@ const totalPages = pagination.totalPages || 1;
 
 const confirmDelete = async () => {
   try {
-    await userDelete(selectedUser.id); // ✅ uses id
+    await userDelete(selectedUser.id); 
 
     setShowDeleteModal(false);
     setSelectedUser(null);
@@ -137,7 +93,7 @@ const confirmStatusUpdate = async () => {
 
   try {
     await updateStatus({
-      id: selectedUser.id, // ✅ uses id
+      id: selectedUser.id, 
       status: newStatus
     });
 
@@ -166,7 +122,8 @@ else{
 
 
   <div className="nav">
-    <h3 style={{ textDecoration: "none", color: "black" ,fontWeight: "400"}}>{loc.slice(22)}</h3>
+    <h3 style={{ textDecoration: "none", color: "black" ,fontWeight: "400"}}> <Bread/></h3>
+
   </div>
 
 <Link style={{ textDecoration: "none" }} to="/adduser" className="mybtn">+ Add User</Link>

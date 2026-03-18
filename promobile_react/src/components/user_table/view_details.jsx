@@ -1,6 +1,7 @@
 import { useParams , useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getUserById } from "../../services/api";
+import Bread from "../Breadcrumbs/breadcrumbs";
 
 
 function Viewdetails(){
@@ -35,11 +36,12 @@ function Viewdetails(){
   <style
     dangerouslySetInnerHTML={{
       __html:
-        "\n    *{\n        margin: 0;\n        padding: 0;\n        font-family: Poppins;\n    }\n    nav{\n        position: fixed;\n        top: 0;\n        width: 100%;\n        padding: 18px 40px;\n        background: white;\n        font-size: 30px;\n        box-shadow: 0 2px 6px rgba(0,0,0,0.1);\n        z-index: 10;\n\n    }\n    .container_o{\n        width:35%;\n        height: 30%;\n        box-shadow: 0 2px 6px rgba(0,0,0,0.45);\n        margin: 150px 0px 0px 270px;\n        border-radius: 10px;\n        background-color: whitesmoke;\n        padding: 40px;      \n\n    }\n    .container_in{  \n    display: grid;\n    column-gap: 60px;\n    grid-template-columns: repeat(2,1fr);\n\n    }\n    .move{\n    background-color: transparent;\n    border: 2px solid #d8433c;\n    color: #d8433c;\n    border-radius: 10px;\n    width: 100px;\n    height: 40px;\n    font-weight: 900;\n    }\n    .a{\n        margin: 0;\n        color: rgb(128, 128, 128);\n        font-size: 14px;\n    }\n    .b{\n  color:black;\n      margin: 0;\n        font-size: 16px;\n    }\n\n\n\n"
+        "\n    *{\n        margin: 0;\n        padding: 0;\n        font-family: Poppins;\n    }\n    nav{\n        position: fixed;\n       top: 0;\n        width: 100%;\n        padding: 18px 40px;\n        background: white;\n        font-size: 25px;\n        box-shadow: 0 2px 6px rgba(0,0,0,0.1);\n        z-index: 10;\n\n    }\n    .container_o{\n        width:35%;\n        height: 30%;\n        box-shadow: 0 2px 6px rgba(0,0,0,0.45);\n        margin: 150px 0px 0px 270px;\n        border-radius: 10px;\n        background-color: whitesmoke;\n        padding: 40px;      \n\n    }\n    .container_in{  \n    display: grid;\n    column-gap: 60px;\n    grid-template-columns: repeat(2,1fr);\n\n    }\n    .move{\n    background-color: transparent;\n    border: 2px solid #d8433c;\n    color: #d8433c;\n    border-radius: 10px;\n    width: 100px;\n    height: 40px;\n    font-weight: 900;\n    }\n    .a{\n        margin: 0;\n        color: rgb(128, 128, 128);\n        font-size: 14px;\n    }\n    .b{\n  color:black;\n      margin: 0;\n        font-size: 16px;\n    }\n\n\n\n"
     }}
   />
   <nav>
-    <h4 style={{color:"black" , fontWeight:"400"}}>{loc.slice(22)}</h4>
+    <h4 style={{ textDecoration: "none", color: "black" ,fontWeight: "400"}}> <Bread/></h4>
+
   </nav>
   <main>
     <div className="container_o">
