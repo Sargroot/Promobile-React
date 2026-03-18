@@ -2,6 +2,8 @@ import styles from "./add_user_s.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getRoles,getCountries,getStates,editUser,getUserById } from "../../services/api";
+import { emailRegex,usernameRegex,mobileRegex } from "../../constant";
+import Bread from "../Breadcrumbs/breadcrumbs";
 
 function Editdetails() {
   const [roles, setRoles] = useState([]);
@@ -145,12 +147,6 @@ const handleChange = (e) => {
 
 };
 
-
-
-const usernameRegex = /^[A-Za-z\s]+$/;
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const mobileRegex = /^\d{10}$/;
-
 const validateField = (name, value) => {
   switch (name) {
     case "username":
@@ -225,9 +221,10 @@ const res = await editUser(id, payload);
       <div className={styles.form__outer}>
 
         <div className={styles.nav}>
-          <h3 style={{ color: "black", fontWeight: "400" }}>
-            {loc.slice(22)}
+          <h3 style={{ textDecoration: "none", color: "black" ,fontWeight: "400"}}>
+         <Bread />
           </h3>
+         
         </div>
 
         <div className={styles.form__container}>

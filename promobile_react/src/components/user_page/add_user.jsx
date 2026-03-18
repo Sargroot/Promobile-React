@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import styles from "./add_user_s.module.css";
 import { useNavigate } from "react-router-dom";
 import { getRoles,getCountries,getStates ,addUser} from "../../services/api";
+import { emailRegex,usernameRegex,mobileRegex } from "../../constant";
 
 function Adduser(){
   
@@ -103,11 +104,6 @@ const handleChange = (e) => {
   }));
 
 };
-
-
-const usernameRegex = /^[A-Za-z\s]+$/;
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const mobileRegex = /^\d{10}$/;
 
 const validateField = (name, value) => {
   switch (name) {
